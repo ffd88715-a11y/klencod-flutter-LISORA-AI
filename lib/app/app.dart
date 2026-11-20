@@ -17,8 +17,8 @@ class TalkoraApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'TALKORA AI',
       debugShowCheckedModeBanner: false,
-      theme: TalkoraTheme.light(isArabic: isArabic),
-      darkTheme: TalkoraTheme.dark(isArabic: isArabic),
+      theme: TalkoraTheme.light(isArabic: isArabic, accentKey: profile.accentColorKey),
+      darkTheme: TalkoraTheme.dark(isArabic: isArabic, accentKey: profile.accentColorKey),
       themeMode: profile.themeMode,
       locale: Locale(profile.uiLocale),
       supportedLocales: const [Locale('en'), Locale('ar')],

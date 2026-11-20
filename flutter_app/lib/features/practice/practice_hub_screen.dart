@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talkora_ai/app/theme/app_theme.dart';
 import 'package:talkora_ai/core/storage/app_state_provider.dart';
+import 'package:talkora_ai/core/widgets/ios_components.dart';
 
 class PracticeHubScreen extends ConsumerWidget {
   const PracticeHubScreen({super.key});
@@ -9,81 +12,80 @@ class PracticeHubScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final s = ref.watch(appStringsProvider);
+    final isAr = s.isArabic;
+
     return Scaffold(
       appBar: AppBar(title: Text(s.t('nav_practice'))),
       body: ListView(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         children: [
-          _PracticeModuleCard(
-            icon: Icons.mic_rounded,
-            title: s.t('free_conversation'),
-            subtitle: 'Open-ended real-time voice dialogue with instant corrections',
-            onTap: () => context.push('/voice'),
+          IosGroupedSection(
+            header: isAr ? 'استوديو الذكاء الاصطناعي التفاعلي' : 'AI INTERACTIVE LABS',
+            children: [
+              IosSettingsRow(
+                icon: CupertinoIcons.person_2_fill,
+                iconColor: TalkoraColors.iosPurple,
+                title: s.t('roleplay'),
+                subtitle: isAr ? '8 مواقف واقعية مع محادثة AI حية' : '8 real-life scenarios with live AI coaching',
+                onTap: () => context.push('/roleplay'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.wand_stars,
+                iconColor: TalkoraColors.iosGreen,
+                title: s.t('writing_lab'),
+                subtitle: isAr ? 'تصحيح الكتابة وتغيير الأسلوب وتقييم IELTS' : 'Rewrite, grammar fixes & IELTS band score',
+                onTap: () => context.push('/writing'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.globe,
+                iconColor: TalkoraColors.iosTeal,
+                title: s.t('translator'),
+                subtitle: isAr ? 'ترجمة فورية وشرح التعبيرات الاصطلاحية' : 'Bidirectional translator & idiom decoder',
+                onTap: () => context.push('/translator'),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          _PracticeModuleCard(
-            icon: Icons.record_voice_over_rounded,
-            title: s.t('pronunciation'),
-            subtitle: 'Phoneme-level feedback, IPA comparison & reference audio',
-            onTap: () => context.push('/practice/pronunciation'),
-          ),
-          const SizedBox(height: 12),
-          _PracticeModuleCard(
-            icon: Icons.menu_book_rounded,
-            title: s.t('grammar'),
-            subtitle: 'Bilingual explanations, practical examples & instant drills',
-            onTap: () => context.push('/practice/grammar'),
-          ),
-          const SizedBox(height: 12),
-          _PracticeModuleCard(
-            icon: Icons.headphones_rounded,
-            title: s.t('listening'),
-            subtitle: 'Multi-accent audio lessons with transcripts & comprehension checks',
-            onTap: () => context.push('/practice/listening'),
-          ),
-          const SizedBox(height: 12),
-          _PracticeModuleCard(
-            icon: Icons.bolt_rounded,
-            title: s.t('daily_challenge'),
-            subtitle: 'Focused 90-second speaking challenge with AI fluency scoring',
-            onTap: () => context.push('/practice/challenge'),
+          IosGroupedSection(
+            header: isAr ? 'مهارات التحدث والاستماع والقواعد' : 'CORE ENGLISH SKILLS',
+            children: [
+              IosSettingsRow(
+                icon: CupertinoIcons.mic_fill,
+                iconColor: TalkoraColors.iosBlue,
+                title: s.t('free_conversation'),
+                subtitle: isAr ? 'محادثة صوتية مباشرة بموجات صوتية حقيقية' : 'Real-time voice dialogue with instant feedback',
+                onTap: () => context.push('/voice'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.waveform,
+                iconColor: TalkoraColors.iosIndigo,
+                title: s.t('pronunciation'),
+                subtitle: isAr ? 'تحليل النطق ومقارنة الصوتيات IPA' : 'Phoneme feedback & IPA reference',
+                onTap: () => context.push('/practice/pronunciation'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.book_fill,
+                iconColor: TalkoraColors.iosOrange,
+                title: s.t('grammar'),
+                subtitle: isAr ? 'شرح مبسط بالعربية مع تدريبات فورية' : 'Bilingual explanations & instant drills',
+                onTap: () => context.push('/practice/grammar'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.headphones,
+                iconColor: TalkoraColors.iosPink,
+                title: s.t('listening'),
+                subtitle: isAr ? 'دروس استماع بلهجات متعددة مع النص' : 'Multi-accent audio lessons & transcripts',
+                onTap: () => context.push('/practice/listening'),
+              ),
+              IosSettingsRow(
+                icon: CupertinoIcons.bolt_fill,
+                iconColor: TalkoraColors.iosRed,
+                title: s.t('daily_challenge'),
+                subtitle: isAr ? 'تحدي التحدث اليومي لمدة 90 ثانية' : 'Focused 90-second speaking sprint',
+                onTap: () => context.push('/practice/challenge'),
+              ),
+            ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PracticeModuleCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
-
-  const _PracticeModuleCard({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.14),
-          child: Icon(icon, color: theme.colorScheme.primary),
-        ),
-        title: Text(title, style: theme.textTheme.titleMedium),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 4),
-          child: Text(subtitle),
-        ),
-        trailing: const Icon(Icons.chevron_right_rounded),
-        onTap: onTap,
       ),
     );
   }

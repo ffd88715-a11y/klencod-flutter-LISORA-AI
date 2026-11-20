@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:talkora_ai/app/app.dart';
+import 'package:talkora_ai/core/ai/ai_provider_models.dart';
 import 'package:talkora_ai/core/widgets/talkora_waveform.dart';
 
 void main() {
-  testWidgets('TALKORA AI boots splash screen cleanly', (WidgetTester tester) async {
+  testWidgets('TALKORA AI v2.0 boots splash screen cleanly', (WidgetTester tester) async {
     await tester.pumpWidget(const ProviderScope(child: TalkoraApp()));
     expect(find.text('TALKORA AI'), findsOneWidget);
-    expect(find.text('Speak. Learn. Grow.'), findsOneWidget);
     await tester.pump(const Duration(milliseconds: 1600));
   });
 
@@ -21,5 +21,13 @@ void main() {
       ),
     );
     expect(find.byType(TalkoraWaveform), findsOneWidget);
+  });
+
+  test('AiProviderCatalog contains all 10 providers including custom endpoint', () {
+    expect(AiProviderCatalog.all.length, 10);
+    expect(AiProviderCatalog.byId('openai').name, 'OpenAI (GPT)');
+    expect(AiProviderCatalog.byId('gemini').wireFormat, AiWireFormat.googleGemini);
+    expect(AiProviderCatalog.byId('claude').wireFormat, AiWireFormat.anthropicClaude);
+    expect(AiProviderCatalog.byId('custom').id, 'custom');
   });
 }

@@ -303,7 +303,7 @@ class _LiveVoiceScreenState extends ConsumerState<LiveVoiceScreen> {
 
               // Toggle Arabic translation chip
               Align(
-                alignment: Alignment.centerEnd,
+                alignment: AlignmentDirectional.centerEnd,
                 child: FilterChip(
                   label: Text(s.t('show_arabic')),
                   selected: _showArabic,

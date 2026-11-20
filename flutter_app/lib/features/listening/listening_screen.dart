@@ -51,13 +51,10 @@ class _ListeningScreenState extends State<ListeningScreen> {
                   if (_showTranscript) ...[
                     const SizedBox(height: 16),
                     const Text(
-                      'Barista: Good morning! What can I get started for you today?
-'
-                      'Customer: Hi there, could I have a medium flat white with oat milk, please?
-'
-                      'Barista: Of course. To have here or to take away?
-'
-                      'Customer: To take away, thanks.',
+                      "Barista: Good morning! What can I get started for you today?\n"
+                      "Customer: Hi there, could I have a medium flat white with oat milk, please?\n"
+                      "Barista: Of course. To have here or to take away?\n"
+                      "Customer: To take away, thanks.",
                     ),
                   ],
                 ],
