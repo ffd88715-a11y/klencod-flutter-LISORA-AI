@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ai.talkora.app"
-    compileSdk = 35
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -21,7 +21,7 @@ android {
     defaultConfig {
         applicationId = "ai.talkora.app"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = flutter.targetSdkVersion
         versionCode = 1
         versionName = "1.0.0"
         multiDexEnabled = true
